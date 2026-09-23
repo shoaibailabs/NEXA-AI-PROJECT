@@ -1,51 +1,53 @@
-# AI Voice Assistant
+# Nexa AI
 
-A full-stack AI Voice Assistant built with Python, FastAPI, Flask, JavaScript, and OpenAI.
+## Smart Digital Workspace
 
-This application provides a web-based interface for interacting with an AI assistant and performing different tasks through API endpoints.
+Nexa AI is a Smart Digital Workspace designed to bring multiple useful digital tasks together in one application.
+
+It provides a simple web-based interface where users can interact with AI through text and perform everyday digital tasks from a single workspace.
 
 ## Features
 
-- AI Chat / Ask AI
-- Task Creation
-- Task Listing
-- Task Deletion
-- Email Sending
-- WhatsApp Messaging
-- Google Search
-- Wikipedia Search
-- Time Information
-- Chat/Memory Clearing
-- FastAPI Backend
-- Flask Frontend
-- Environment Variable Based Secret Management
+* **Ask AI** — Get AI-powered text responses
+* **Task Management** — Create, view, and delete tasks
+* **Email** — Send emails directly from the application
+* **WhatsApp** — Send WhatsApp messages
+* **Google Search** — Search the web through the application
+* **Wikipedia Search** — Get information from Wikipedia
+* **Time** — Get the current time
+* **Clear Chat** — Clear the current AI conversation/memory
 
 ## Technologies Used
 
-- Python
-- FastAPI
-- Flask
-- JavaScript
-- HTML
-- CSS
-- OpenAI API
-- Requests
-- python-dotenv
+* Python
+* FastAPI
+* Flask
+* HTML
+* CSS
+* JavaScript
+* OpenAI API
+* Requests
+* python-dotenv
 
-## Project Architecture
+## Architecture
 
-Frontend:
-Flask + HTML + CSS + JavaScript
+Nexa AI uses a Flask frontend connected to a FastAPI backend.
 
-Backend:
-FastAPI
-
-AI:
-OpenAI API
+```text
+User
+  ↓
+Flask Frontend
+  ↓
+FastAPI Backend
+  ↓
+AI & Digital Task Services
+```
 
 ## Security
 
-Sensitive information such as API keys, passwords, and other secrets are stored in environment variables and are not committed to GitHub.
+Sensitive information such as API keys, email credentials, and other secrets are stored using environment variables.
+
+The `.env` file is excluded from version control using `.gitignore`.
 
 ## Installation
 
@@ -53,3 +55,16 @@ Clone the repository and install the required dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+Create a `.env` file and add the required environment variables.
+
+Then run the Flask frontend and FastAPI backend.
+
+## Purpose
+
+Nexa AI is built as a practical Smart Digital Workspace that combines AI-powered assistance and useful digital services into one application.
+
+## Disclaimer
+
+This project is developed for learning, development, and demonstration purposes.
