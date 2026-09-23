@@ -1,1 +1,898 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Jarvis AI Assistant</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     APP CONTAINER
+====================================================== -->
+
+<div class="app-container">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🤖
+            </div>
+
+            <div>
+
+                <h1>NEXA AI</h1>
+
+                <span>Smart Digital Workspace</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="status">
+
+            <span class="status-dot"></span>
+
+            <span>System Online</span>
+
+        </div>
+
+
+        <nav class="navigation">
+
+            <button class="nav-item active"
+                    data-section="dashboard">
+
+                <span>🏠</span>
+                <span>Dashboard</span>
+
+            </button>
+
+
+            <button class="nav-item"
+                    data-section="ask-ai">
+
+                <span>💬</span>
+                <span>Ask AI</span>
+
+            </button>
+
+
+            <button class="nav-item"
+                    data-section="tasks">
+
+                <span>📝</span>
+                <span>Tasks</span>
+
+            </button>
+
+
+            <button class="nav-item"
+                    data-section="email">
+
+                <span>📧</span>
+                <span>Email</span>
+
+            </button>
+
+
+            <button class="nav-item"
+                    data-section="whatsapp">
+
+                <span>📱</span>
+                <span>WhatsApp</span>
+
+            </button>
+
+
+            <button class="nav-item"
+                    data-section="search">
+
+                <span>🔎</span>
+                <span>Search</span>
+
+            </button>
+
+
+            <!-- <button class="nav-item"
+                    data-section="image">
+
+                <span>🖼️</span>
+                <span>AI Image</span>
+
+            </button>  -->
+
+
+            <button class="nav-item"
+                    data-section="time">
+
+                <span>⏰</span>
+                <span>Current Time</span>
+
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button class="nav-item"
+                    data-section="settings">
+
+                <span>⚙️</span>
+                <span>Settings</span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         MAIN CONTENT
+    ================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <button id="mobile-menu"
+                    class="mobile-menu">
+
+                ☰
+
+            </button>
+
+
+            <div>
+
+                <p class="topbar-label">
+                    SMART DIGITAL WORKSPACE
+                </p>
+
+                <h2 id="page-title">
+                    Dashboard
+                </h2>
+
+            </div>
+
+
+            <div class="connection">
+
+                <span class="status-dot"></span>
+
+                <span id="connection-text">
+                    FastAPI Connected
+                </span>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
+
+        <section id="dashboard"
+                 class="page-section active-section">
+
+            <div class="hero">
+
+                <div>
+
+                    <p class="eyebrow">
+                        WELCOME BACK
+                    </p>
+
+                    <h1>
+                        Meet NEXA AI
+                        <!-- <span>AI assistant.</span> -->
+                    </h1>
+
+                    <p>
+                        Ask questions, manage tasks,
+                        send messages and use your
+                        AI-powered tools from one place.
+                    </p>
+
+                    <button class="primary-button"
+                            data-section="ask-ai">
+
+                        💬 Start Conversation
+
+                    </button>
+
+                </div>
+
+
+                <div class="orb-container">
+
+                    <div class="orb">
+
+                        <div class="orb-core">
+                            AI
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        FEATURES
+                    </p>
+
+                    <h2>
+                        What can I do?
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+
+                <div class="feature-card"
+                     data-section="ask-ai">
+
+                    <div class="feature-icon">
+                        💬
+                    </div>
+
+                    <h3>Ask AI</h3>
+
+                    <p>
+                        Chat with your AI assistant.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card"
+                     data-section="tasks">
+
+                    <div class="feature-icon">
+                        📝
+                    </div>
+
+                    <h3>Tasks</h3>
+
+                    <p>
+                        Create and view your tasks.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card"
+                     data-section="email">
+
+                    <div class="feature-icon">
+                        📧
+                    </div>
+
+                    <h3>Email</h3>
+
+                    <p>
+                        Send emails using your assistant.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card"
+                     data-section="whatsapp">
+
+                    <div class="feature-icon">
+                        📱
+                    </div>
+
+                    <h3>WhatsApp</h3>
+
+                    <p>
+                        Send WhatsApp messages.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card"
+                     data-section="search">
+
+                    <div class="feature-icon">
+                        🔎
+                    </div>
+
+                    <h3>Search</h3>
+
+                    <p>
+                        Search Google and Wikipedia.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card"
+                     data-section="time">
+
+                    <div class="feature-icon">
+                    ⏰
+                    </div>
+
+                    <h3>Current Time</h3>
+
+                    <p>
+                        see your time now.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ASK AI
+        ================================================== -->
+
+        <section id="ask-ai"
+                 class="page-section">
+
+            <div class="section-header">
+
+                <p class="eyebrow">
+                    ARTIFICIAL INTELLIGENCE
+                </p>
+
+                <h1>
+                    Ask AI
+                </h1>
+
+                <p>
+                    Talk to your AI assistant.
+                </p>
+
+            </div>
+
+
+            <div class="chat-container">
+
+                <div id="chat-messages"
+                     class="chat-messages">
+
+                    <div class="message assistant-message">
+
+                        <div class="message-avatar">
+                            🤖
+                        </div>
+
+                        <div class="message-content">
+
+                            <span class="message-name">
+                                JARVIS
+                            </span>
+
+                            <p>
+                                Hello! How can I help you today?
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chat-input-area">
+
+                    <button id="voice-button"
+                            class="voice-button"
+                            title="Voice Input">
+
+                        🎤
+
+                    </button>
+
+
+                    <input id="ai-input"
+                           type="text"
+                           placeholder="Type your message..." />
+
+
+                    <button id="send-ai"
+                            class="send-button">
+
+                        ➤
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             TASKS
+        ================================================== -->
+
+        <section id="tasks"
+                 class="page-section">
+
+            <div class="section-header">
+
+                <p class="eyebrow">
+                    PRODUCTIVITY
+                </p>
+
+                <h1>
+                    Task Manager
+                </h1>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Create a Task
+                </h3>
+
+                <div class="input-row">
+
+                    <input id="task-input"
+                           type="text"
+                           placeholder="Enter your task..." />
+
+                    <button id="create-task"
+                            class="primary-button">
+
+                        Add Task
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-title-row">
+
+                    <h3>
+                        Your Tasks
+                    </h3>
+
+                    <button id="load-tasks"
+                            class="secondary-button">
+
+                        🔄 Refresh
+
+                    </button>
+
+                </div>
+
+
+                <div id="task-list"
+                     class="task-list">
+
+                    <p class="empty-state">
+                        Click Refresh to load tasks.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    <!-- email -->
+
+        <section id="email" class="page-section">
+            <div class="section-header">
+                <h2>Send Email</h2>
+                <p>Send an email using your Gmail account.</p>
+            </div>
+
+            <div class="card email-card">
+
+                <div class="form-group">
+                    <label for="sender_email">Sender Email</label>
+                    <input
+                        type="email"
+                        id="sender_email"
+                        placeholder="yourname@gmail.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="app_password">Gmail App Password</label>
+                    <input
+                        type="password"
+                        id="app_password"
+                        placeholder="16-character App Password"
+                        autocomplete="off"
+                        required
+                    >
+                    <small>
+                        Use Gmail App Password, not your normal Gmail password.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="receiver_email">Receiver Email</label>
+                    <input
+                        type="email"
+                        id="receiver_email"
+                        placeholder="receiver@gmail.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email_subject">Subject</label>
+                    <input
+                        type="text"
+                        id="email_subject"
+                        placeholder="Email Subject"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email_message">Message</label>
+                    <textarea
+                        id="email_message"
+                        rows="7"
+                        placeholder="Write your message here..."
+                        required
+                    ></textarea>
+                </div>
+
+                <button type="button" id="sendEmailBtn" class="primary-btn">
+                    Send Email
+                </button>
+
+                <div id="emailStatus" class="status-message"></div>
+
+            </div>
+        </section>
+
+
+
+        <!-- =================================================
+             WHATSAPP
+        ================================================== -->
+
+    <section id="whatsapp" class="page-section">
+        <div class="section-header">
+            <h2>Send WhatsApp</h2>
+            <p>Send a WhatsApp message using country code and phone number.</p>
+        </div>
+
+    <div class="card whatsapp-card">
+
+        <div class="form-group">
+            <label for="country_code">Country Code</label>
+            <input
+                type="text"
+                id="country_code"
+                placeholder="+92"
+                required
+            >
+            <small>Example: +92 for Pakistan</small>
+        </div>
+
+        <div class="form-group">
+            <label for="whatsapp_number">WhatsApp Number</label>
+            <input
+                type="tel"
+                id="whatsapp_number"
+                placeholder="3001234567"
+                required
+            >
+            <small>Do not enter the country code here.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="whatsapp_message">Message</label>
+            <textarea
+                id="whatsapp_message"
+                rows="6"
+                placeholder="Write your WhatsApp message here..."
+                required
+            ></textarea>
+        </div>
+
+        <button
+            type="button"
+            id="sendWhatsAppBtn"
+            class="primary-btn"
+        >
+            Send WhatsApp
+        </button>
+
+        <div id="whatsappStatus" class="status-message"></div>
+
+    </div>
+
+    </section>
+            
+
+        <!-- =================================================
+             SEARCH
+        ================================================== -->
+
+        <section id="search"
+                 class="page-section">
+
+            <div class="section-header">
+
+                <p class="eyebrow">
+                    INFORMATION
+                </p>
+
+                <h1>
+                    Search
+                </h1>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="search-tabs">
+
+                    <button id="wiki-tab"
+                            class="search-tab active">
+
+                        Wikipedia
+
+                    </button>
+
+                    <button id="google-tab"
+                            class="search-tab">
+
+                        Google
+
+                    </button>
+
+                </div>
+
+
+                <div class="input-row">
+
+                    <input id="search-input"
+                           type="text"
+                           placeholder="What do you want to search?" />
+
+                    <button id="search-button"
+                            class="primary-button">
+
+                        🔎 Search
+
+                    </button>
+
+                </div>
+
+
+                <div id="search-result"
+                     class="search-result">
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             IMAGE GENERATION
+        ================================================== -->
+<!-- 
+        <section id="image"
+                 class="page-section">
+
+            <div class="section-header">
+
+                <p class="eyebrow">
+                    GENERATIVE AI
+                </p>
+
+                <h1>
+                    AI Image Generator
+                </h1>
+
+            </div>
+
+
+            <div class="card form-card">
+
+                <label>
+                    Describe your image
+                </label>
+
+                <textarea id="image-prompt"
+                          placeholder="A futuristic city at sunset...">
+                </textarea>
+
+
+                <button id="generate-image"
+                        class="primary-button full-width">
+
+                    🎨 Generate Image
+
+                </button>
+
+
+                <div id="image-result"
+                     class="image-result">
+
+                </div>
+
+            </div>
+
+        </section>
+ -->
+
+
+        <!-- =================================================
+             TIME
+        ================================================== -->
+
+        <section id="time"
+                 class="page-section">
+
+            <div class="section-header">
+
+                <p class="eyebrow">
+                    SYSTEM
+                </p>
+
+                <h1>
+                    Current Time
+                </h1>
+
+            </div>
+
+
+            <div class="time-card">
+
+                <div class="clock-icon">
+                    ⏰
+                </div>
+
+                <div id="current-time">
+                    --:--:--
+                </div>
+
+                <button id="get-time"
+                        class="secondary-button">
+
+                    Get Server Time
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SETTINGS
+        ================================================== -->
+
+        <section id="settings"
+                 class="page-section">
+
+            <div class="section-header">
+
+                <p class="eyebrow">
+                    CONFIGURATION
+                </p>
+
+                <h1>
+                    Settings
+                </h1>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Backend Status
+                </h3>
+
+                <p>
+                    FastAPI Backend
+                </p>
+
+                <div id="backend-status"
+                     class="status-display">
+
+                    Checking...
+
+                </div>
+
+                <button id="check-api"
+                        class="secondary-button">
+
+                    🔄 Check Connection
+
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    About NEXA AI
+                </h3>
+
+                <p>
+                    A Smart Digital Workspace powered by
+                    FastAPI and a modern web interface.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+
+</html>
