@@ -5,7 +5,6 @@ import datetime
 import random
 import os
 import webbrowser
-# import pyautogui
 import wikipedia
 import pywhatkit as pwk
 from plyer import notification
@@ -472,40 +471,6 @@ def open_youtube():
             detail=str(e)
         )
 
-
-# =========================================================
-# OPEN APPLICATION / SEARCH FROM WINDOWS
-# =========================================================
-
-# @app.post("/open")
-# def open_application(data: OpenAppRequest):
-
-#     application = data.application.strip()
-
-#     if application == "":
-#         raise HTTPException(
-#             status_code=400,
-#             detail="Application name cannot be empty"
-#         )
-
-#     try:
-
-        # pyautogui.press("super")
-        # pyautogui.typewrite(application)
-        # pyautogui.sleep(2)
-        # pyautogui.press("enter")
-
-        # return {
-        #     "success": True,
-        #     "message": f"Opening {application}"
-        # }
-
-    # except Exception as e:
-
-    #     raise HTTPException(
-    #         status_code=500,
-    #         detail=str(e)
-    #     )
 
 # =========================================================
 # WIKIPEDIA SEARCH
