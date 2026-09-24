@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, EmailStr
 from typing import Optional
@@ -6,7 +5,7 @@ import datetime
 import random
 import os
 import webbrowser
-import pyautogui
+# import pyautogui
 import wikipedia
 import pywhatkit as pwk
 from plyer import notification
@@ -478,35 +477,35 @@ def open_youtube():
 # OPEN APPLICATION / SEARCH FROM WINDOWS
 # =========================================================
 
-@app.post("/open")
-def open_application(data: OpenAppRequest):
+# @app.post("/open")
+# def open_application(data: OpenAppRequest):
 
-    application = data.application.strip()
+#     application = data.application.strip()
 
-    if application == "":
-        raise HTTPException(
-            status_code=400,
-            detail="Application name cannot be empty"
-        )
+#     if application == "":
+#         raise HTTPException(
+#             status_code=400,
+#             detail="Application name cannot be empty"
+#         )
 
-    try:
+#     try:
 
-        pyautogui.press("super")
-        pyautogui.typewrite(application)
-        pyautogui.sleep(2)
-        pyautogui.press("enter")
+        # pyautogui.press("super")
+        # pyautogui.typewrite(application)
+        # pyautogui.sleep(2)
+        # pyautogui.press("enter")
 
-        return {
-            "success": True,
-            "message": f"Opening {application}"
-        }
+        # return {
+        #     "success": True,
+        #     "message": f"Opening {application}"
+        # }
 
-    except Exception as e:
+    # except Exception as e:
 
-        raise HTTPException(
-            status_code=500,
-            detail=str(e)
-        )
+    #     raise HTTPException(
+    #         status_code=500,
+    #         detail=str(e)
+    #     )
 
 # =========================================================
 # WIKIPEDIA SEARCH
