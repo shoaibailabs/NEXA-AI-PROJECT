@@ -6,9 +6,6 @@ python-dotenv
 openai
 pywhatkit
 wikipedia
-pyttsx3
-SpeechRecognition
-pyaudio
 plyer
 pydantic
 pydantic[email]
