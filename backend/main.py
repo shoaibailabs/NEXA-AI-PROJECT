@@ -6,7 +6,7 @@ import random
 import os
 import webbrowser
 import wikipedia
-import pywhatkit as pwk
+# import pywhatkit as pwk
 from plyer import notification
 
 
