@@ -10,3 +10,4 @@ plyer
 pydantic
 pydantic[email]
 python-dotenv
+gunicorn
