@@ -11,7 +11,7 @@ app = Flask(__name__)
 # FASTAPI BACKEND URL
 # ==========================================
 
-FASTAPI_URL = "http://127.0.0.1:8000"
+FASTAPI_URL = "https://nexa-ai-project.onrender.com/"
 
 
 # ==========================================
