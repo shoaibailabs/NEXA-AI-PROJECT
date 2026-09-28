@@ -10,7 +10,7 @@ app = Flask(__name__)
 # FASTAPI BACKEND URL
 # ==========================================
 
-FASTAPI_URL = "https://nexa-ai-project.onrender.com/"
+FASTAPI_URL = "https://nexa-ai-project.onrender.com"
 
 
 # ==========================================
