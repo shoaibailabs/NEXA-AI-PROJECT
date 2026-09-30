@@ -623,7 +623,6 @@ async function deleteTask(taskIndex) {
     }
 }
 
-
 // ================================
 // SEND EMAIL
 // ================================
@@ -633,22 +632,22 @@ const sendEmailBtn = document.getElementById("sendEmailBtn");
 if (sendEmailBtn) {
     sendEmailBtn.addEventListener("click", async () => {
 
-        const senderEmail = document.getElementById("sender_email").value.trim();
-        const appPassword = document.getElementById("app_password").value.trim();
-        const receiverEmail = document.getElementById("receiver_email").value.trim();
-        const subject = document.getElementById("email_subject").value.trim();
-        const message = document.getElementById("email_message").value.trim();
+        const senderEmail =
+            document.getElementById("sender_email").value.trim();
 
-        const emailStatus = document.getElementById("emailStatus");
+        const receiverEmail =
+            document.getElementById("receiver_email").value.trim();
 
-        // Basic validation
-        if (
-            !senderEmail ||
-            !appPassword ||
-            !receiverEmail ||
-            !subject ||
-            !message
-        ) {
+        const subject =
+            document.getElementById("email_subject").value.trim();
+
+        const message =
+            document.getElementById("email_message").value.trim();
+
+        const emailStatus =
+            document.getElementById("emailStatus");
+
+        if (!senderEmail || !receiverEmail || !subject || !message) {
             emailStatus.textContent = "Please fill in all fields.";
             return;
         }
@@ -657,7 +656,6 @@ if (sendEmailBtn) {
         sendEmailBtn.disabled = true;
 
         try {
-
             const response = await fetch("/send-email", {
                 method: "POST",
                 headers: {
@@ -665,7 +663,6 @@ if (sendEmailBtn) {
                 },
                 body: JSON.stringify({
                     sender_email: senderEmail,
-                    app_password: appPassword,
                     receiver_email: receiverEmail,
                     subject: subject,
                     message: message
@@ -675,36 +672,28 @@ if (sendEmailBtn) {
             const data = await response.json();
 
             if (response.ok && data.success) {
-
                 emailStatus.textContent = "Email sent successfully!";
 
-                // Clear fields after successful sending
                 document.getElementById("sender_email").value = "";
-                document.getElementById("app_password").value = "";
                 document.getElementById("receiver_email").value = "";
                 document.getElementById("email_subject").value = "";
                 document.getElementById("email_message").value = "";
-
             } else {
-
                 emailStatus.textContent =
                     data.message || "Failed to send email.";
             }
 
-    } catch (error) {
+        } catch (error) {
+            console.error("Email Error:", error);
 
-        console.error("Email Error:", error);
+            emailStatus.textContent =
+                `Email error: ${error.message}`;
 
-        emailStatus.textContent =
-            `Email error: ${error.message}`;
-        
-    } finally {
-
+        } finally {
             sendEmailBtn.disabled = false;
         }
     });
 }
-
 
 // =====================================================
 // SEND WHATSAPP

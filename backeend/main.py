@@ -18,7 +18,8 @@ else:
 from plyer import notification
 
 
-import openai_request
+# import openai_request
+from . import openai_request
 # from image_generation import generate_image
 
 from dotenv import load_dotenv
@@ -27,8 +28,9 @@ phone_number=os.getenv('phone_number')
 gmail_password=os.getenv('gmail_password')
 # from user_config import phone_number, gmail_password
 
-import smtplib
-from email.message import EmailMessage
+# import smtplib
+# from email.message import EmailMessage
+import resend
 
 app = FastAPI(
     title="Jarvis Voice Assistant API",
@@ -117,39 +119,33 @@ def send_whatsapp(country_code: str, phone_number: str, message: str):
 
 class EmailRequest(BaseModel):
     sender_email: EmailStr
-    app_password: str
     receiver_email: EmailStr
     subject: str
     message: str
 
-def send_email(sender_email, app_password, receiver_email, subject, message):
+def send_email(sender_email, receiver_email, subject, message):
     try:
-        # Create email
-        email = EmailMessage()
-        email["From"] = sender_email
-        email["To"] = receiver_email
-        email["Subject"] = subject
-        email.set_content(message)
+        resend.api_key = os.getenv("RESEND_API_KEY")
 
-        # Connect to Gmail SMTP server
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.starttls()
+        if not resend.api_key:
+            return {
+                "success": False,
+                "message": "RESEND_API_KEY is not configured."
+            }
 
-            # Login with sender Gmail + Gmail App Password
-            server.login(sender_email, app_password)
+        params = {
+            "from": "onboarding@resend.dev",
+            "to": [receiver_email],
+            "subject": subject,
+            "text": message
+        }
 
-            # Send email
-            server.send_message(email)
+        email = resend.Emails.send(params)
 
         return {
             "success": True,
-            "message": "Email sent successfully!"
-        }
-
-    except smtplib.SMTPAuthenticationError:
-        return {
-            "success": False,
-            "message": "Gmail authentication failed. Check the email and Gmail App Password."
+            "message": "Email sent successfully!",
+            "email_id": email.get("id") if isinstance(email, dict) else None
         }
 
     except Exception as e:
@@ -157,8 +153,6 @@ def send_email(sender_email, app_password, receiver_email, subject, message):
             "success": False,
             "message": f"Email sending failed: {str(e)}"
         }
-
-
 
 # class ImageRequest(BaseModel):
 #     prompt: str
@@ -740,7 +734,6 @@ def send_email_endpoint(data: EmailRequest):
 
     result = send_email(
         sender_email=data.sender_email,
-        app_password=data.app_password,
         receiver_email=data.receiver_email,
         subject=data.subject,
         message=data.message
