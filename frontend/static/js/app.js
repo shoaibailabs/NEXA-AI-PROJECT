@@ -691,14 +691,14 @@ if (sendEmailBtn) {
                     data.message || "Failed to send email.";
             }
 
-        } catch (error) {
+    } catch (error) {
 
-            console.error("Email Error:", error);
+        console.error("Email Error:", error);
 
-            emailStatus.textContent =
-                "Could not connect to the Flask server.";
-
-        } finally {
+        emailStatus.textContent =
+            `Email error: ${error.message}`;
+        
+    } finally {
 
             sendEmailBtn.disabled = false;
         }

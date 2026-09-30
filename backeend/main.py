@@ -7,7 +7,14 @@ import os
 import webbrowser
 # import pyautogui
 import wikipedia
-import pywhatkit as pwk
+
+# import pywhatkit as pwk
+import platform
+if platform.system() == "Windows":
+    import pywhatkit as pwk
+else:
+    pwk = None
+
 from plyer import notification
 
 
