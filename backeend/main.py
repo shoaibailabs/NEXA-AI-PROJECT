@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi import Request
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 import datetime
@@ -21,6 +22,16 @@ from plyer import notification
 # import openai_request
 from . import openai_request
 # from image_generation import generate_image
+
+from fastapi.responses import RedirectResponse
+from google_auth_oauthlib.flow import Flow
+import json
+
+GOOGLE_CLIENT_SECRET_FILE = "client_secret_783376138491-la59vkghvko018mqrssmfbpukof6buvm.apps.googleusercontent.com.json"
+
+GOOGLE_SCOPES = [
+    "https://www.googleapis.com/auth/gmail.send"
+]
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -692,43 +703,6 @@ def send_whatsapp_endpoint(data: WhatsAppRequest):
     return result
 
 
-# =========================================================
-# SEND EMAIL
-# =========================================================
-
-# @app.post("/send-email")
-# def send_email(data: EmailRequest):
-
-#     message = data.message.strip()
-
-#     if message == "":
-#         raise HTTPException(
-#             status_code=400,
-#             detail="Email message cannot be empty"
-#         )
-
-#     try:
-
-#         pwk.send_mail(
-#             "shaoibofficial059@gmail.com",
-#             gmail_password,
-#             "Hello",
-#             message,
-#             "headqurter1@gmail.com"
-#         )
-
-#         return {
-#             "success": True,
-#             "message": "Email sent successfully"
-#         }
-
-#     except Exception as e:
-
-#         raise HTTPException(
-#             status_code=500,
-#             detail=str(e)
-#         )
-
 @app.post("/send-email")
 def send_email_endpoint(data: EmailRequest):
 
@@ -772,3 +746,62 @@ def send_email_endpoint(data: EmailRequest):
 #             status_code=500,
 #             detail=str(e)
 #         )
+
+@app.get("/auth/gmail")
+def gmail_login():
+    flow = Flow.from_client_secrets_file(
+        GOOGLE_CLIENT_SECRET_FILE,
+        scopes=GOOGLE_SCOPES,
+        redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
+    )
+
+    authorization_url, state = flow.authorization_url(
+        access_type="offline",
+        prompt="consent"
+    )
+
+    return RedirectResponse(authorization_url)
+
+
+@app.get("/auth/gmail")
+def gmail_login():
+    flow = Flow.from_client_secrets_file(
+        GOOGLE_CLIENT_SECRET_FILE,
+        scopes=GOOGLE_SCOPES,
+        redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
+    )
+
+    authorization_url, state = flow.authorization_url(
+        access_type="offline",
+        prompt="consent"
+    )
+
+    return RedirectResponse(authorization_url)
+
+
+@app.get("/auth/gmail/callback")
+def gmail_callback(code: str):
+    try:
+        flow = Flow.from_client_secrets_file(
+            GOOGLE_CLIENT_SECRET_FILE,
+            scopes=GOOGLE_SCOPES,
+            redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
+        )
+
+        flow.fetch_token(code=code)
+
+        credentials = flow.credentials
+        
+        with open("token.json", "w") as token:
+            token.write(credentials.to_json())
+
+        return {
+            "success": True,
+            "message": "Gmail connected successfully!"
+        }
+
+    except Exception as e:
+        return {
+            "success": False,
+            "message": f"Gmail connection failed: {str(e)}"
+        }
