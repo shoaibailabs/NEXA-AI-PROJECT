@@ -755,8 +755,8 @@ def gmail_login():
         GOOGLE_CLIENT_SECRET_FILE,
         scopes=GOOGLE_SCOPES,
         redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
-    )
-
+        )
+    
     authorization_url, state = flow.authorization_url(
         access_type="offline",
         prompt="consent"
