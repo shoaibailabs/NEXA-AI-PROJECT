@@ -27,7 +27,9 @@ from fastapi.responses import RedirectResponse
 from google_auth_oauthlib.flow import Flow
 import json
 
-GOOGLE_CLIENT_SECRET_FILE = "client_secret_783376138491-la59vkghvko018mqrssmfbpukof6buvm.apps.googleusercontent.com.json"
+# GOOGLE_CLIENT_SECRET_FILE = "client_secret_783376138491-la59vkghvko018mqrssmfbpukof6buvm.apps.googleusercontent.com.json"
+
+GOOGLE_CLIENT_SECRET_FILE = os.getenv("GOOGLE_CLIENT_SECRET_JSON")
 
 GOOGLE_SCOPES = [
     "https://www.googleapis.com/auth/gmail.send"
@@ -765,12 +767,11 @@ def gmail_login():
 
 @app.get("/auth/gmail")
 def gmail_login():
-    flow = Flow.from_client_secrets_file(
-        GOOGLE_CLIENT_SECRET_FILE,
-        scopes=GOOGLE_SCOPES,
-        redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
+    flow = Flow.from_client_config(
+            json.loads(GOOGLE_CLIENT_SECRET_FILE),
+            scopes=GOOGLE_SCOPES,
+            redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
     )
-
     authorization_url, state = flow.authorization_url(
         access_type="offline",
         prompt="consent"
@@ -782,8 +783,8 @@ def gmail_login():
 @app.get("/auth/gmail/callback")
 def gmail_callback(code: str):
     try:
-        flow = Flow.from_client_secrets_file(
-            GOOGLE_CLIENT_SECRET_FILE,
+        flow = Flow.from_client_config(
+            json.loads(GOOGLE_CLIENT_SECRET_FILE),
             scopes=GOOGLE_SCOPES,
             redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
         )
@@ -791,7 +792,7 @@ def gmail_callback(code: str):
         flow.fetch_token(code=code)
 
         credentials = flow.credentials
-        
+
         with open("token.json", "w") as token:
             token.write(credentials.to_json())
 
