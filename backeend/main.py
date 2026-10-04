@@ -752,7 +752,8 @@ def send_email_endpoint(data: EmailRequest):
 @app.get("/auth/gmail")
 def gmail_login():
     flow = Flow.from_client_config(
-        json.loads(GOOGLE_CLIENT_SECRET_FILE),
+        json.loads(GOOGLE_CLIENT_SECRET_FILE
+                   ),
         scopes=GOOGLE_SCOPES,
         redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
     )
