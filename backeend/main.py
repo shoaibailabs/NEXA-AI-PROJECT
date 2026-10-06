@@ -26,14 +26,15 @@ from . import openai_request
 from fastapi.responses import RedirectResponse
 from google_auth_oauthlib.flow import Flow
 import json
+import secrets
 
-# GOOGLE_CLIENT_SECRET_FILE = "client_secret_783376138491-la59vkghvko018mqrssmfbpukof6buvm.apps.googleusercontent.com.json"
 
 GOOGLE_CLIENT_SECRET_FILE = os.getenv("GOOGLE_CLIENT_SECRET_JSON")
 
 GOOGLE_SCOPES = [
     "https://www.googleapis.com/auth/gmail.send"
 ]
+oauth_sessions = {}
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -749,46 +750,46 @@ def send_email_endpoint(data: EmailRequest):
 #             detail=str(e)
 #         )
 
+
 @app.get("/auth/gmail")
 def gmail_login():
     flow = Flow.from_client_config(
-        json.loads(GOOGLE_CLIENT_SECRET_FILE
-                   ),
+        json.loads(GOOGLE_CLIENT_SECRET_FILE),
         scopes=GOOGLE_SCOPES,
         redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
     )
-    
+
     authorization_url, state = flow.authorization_url(
         access_type="offline",
         prompt="consent"
     )
 
-    return RedirectResponse(authorization_url)
-
-
-@app.get("/auth/gmail")
-def gmail_login():
-    flow = Flow.from_client_config(
-            json.loads(GOOGLE_CLIENT_SECRET_FILE),
-            scopes=GOOGLE_SCOPES,
-            redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
-    )
-    authorization_url, state = flow.authorization_url(
-        access_type="offline",
-        prompt="consent"
-    )
+    oauth_sessions[state] = {
+        "code_verifier": flow.code_verifier
+    }
 
     return RedirectResponse(authorization_url)
 
 
 @app.get("/auth/gmail/callback")
-def gmail_callback(code: str):
+def gmail_callback(code: str, state: str):
     try:
+        session_data = oauth_sessions.get(state)
+
+        if not session_data:
+            return {
+                "success": False,
+                "message": "OAuth session not found or expired."
+            }
+
         flow = Flow.from_client_config(
             json.loads(GOOGLE_CLIENT_SECRET_FILE),
             scopes=GOOGLE_SCOPES,
-            redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback"
+            redirect_uri="https://nexa-ai-project.onrender.com/auth/gmail/callback",
+            state=state
         )
+
+        flow.code_verifier = session_data["code_verifier"]
 
         flow.fetch_token(code=code)
 
@@ -796,6 +797,8 @@ def gmail_callback(code: str):
 
         with open("token.json", "w") as token:
             token.write(credentials.to_json())
+
+        oauth_sessions.pop(state, None)
 
         return {
             "success": True,
