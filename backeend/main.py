@@ -27,6 +27,8 @@ from fastapi.responses import RedirectResponse
 from google_auth_oauthlib.flow import Flow
 import json
 import secrets
+import base64
+from email.mime.text import MIMEText
 
 
 GOOGLE_CLIENT_SECRET_FILE = os.getenv("GOOGLE_CLIENT_SECRET_JSON")
@@ -139,27 +141,49 @@ class EmailRequest(BaseModel):
 
 def send_email(sender_email, receiver_email, subject, message):
     try:
-        resend.api_key = os.getenv("RESEND_API_KEY")
+        from google.oauth2.credentials import Credentials
+        from googleapiclient.discovery import build
 
-        if not resend.api_key:
+        if not os.path.exists("token.json"):
             return {
                 "success": False,
-                "message": "RESEND_API_KEY is not configured."
+                "message": "Gmail is not connected. Please connect Gmail first."
             }
 
-        params = {
-            "from": "onboarding@resend.dev",
-            "to": [receiver_email],
-            "subject": subject,
-            "text": message
+        credentials = Credentials.from_authorized_user_file(
+            "token.json",
+            GOOGLE_SCOPES
+        )
+
+        if not credentials or not credentials.valid:
+            return {
+                "success": False,
+                "message": "Gmail authorization is not valid. Please connect Gmail again."
+            }
+
+        service = build("gmail", "v1", credentials=credentials)
+
+        email_message = MIMEText(message)
+        email_message["to"] = receiver_email
+        email_message["subject"] = subject
+
+        encoded_message = base64.urlsafe_b64encode(
+            email_message.as_bytes()
+        ).decode()
+
+        body = {
+            "raw": encoded_message
         }
 
-        email = resend.Emails.send(params)
+        sent_email = service.users().messages().send(
+            userId="me",
+            body=body
+        ).execute()
 
         return {
             "success": True,
-            "message": "Email sent successfully!",
-            "email_id": email.get("id") if isinstance(email, dict) else None
+            "message": "Email sent successfully through Gmail!",
+            "email_id": sent_email.get("id")
         }
 
     except Exception as e:
@@ -167,7 +191,6 @@ def send_email(sender_email, receiver_email, subject, message):
             "success": False,
             "message": f"Email sending failed: {str(e)}"
         }
-
 # class ImageRequest(BaseModel):
 #     prompt: str
 
