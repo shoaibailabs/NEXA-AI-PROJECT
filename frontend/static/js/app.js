@@ -695,6 +695,7 @@ if (sendEmailBtn) {
     });
 }
 
+
 // =====================================================
 // SEND WHATSAPP
 // =====================================================
@@ -702,79 +703,77 @@ if (sendEmailBtn) {
 const sendWhatsAppBtn = document.getElementById("sendWhatsAppBtn");
 
 if (sendWhatsAppBtn) {
-sendWhatsAppBtn.addEventListener("click", async () => {
+    sendWhatsAppBtn.addEventListener("click", async () => {
 
+        const countryCode =
+            document.getElementById("country_code").value.trim();
 
-    const countryCode =
-        document.getElementById("country_code").value.trim();
+        const phoneNumber =
+            document.getElementById("whatsapp_number").value.trim();
 
-    const phoneNumber =
-        document.getElementById("whatsapp_number").value.trim();
+        const message =
+            document.getElementById("whatsapp_message").value.trim();
 
-    const message =
-        document.getElementById("whatsapp_message").value.trim();
+        const whatsappStatus =
+            document.getElementById("whatsappStatus");
 
-    const whatsappStatus =
-        document.getElementById("whatsappStatus");
-
-    // Check fields
-    if (!countryCode || !phoneNumber || !message) {
-        whatsappStatus.textContent =
-            "Please fill in all fields.";
-        return;
-    }
-
-    whatsappStatus.textContent =
-        "Sending WhatsApp message...";
-
-    sendWhatsAppBtn.disabled = true;
-
-    try {
-
-        const response = await fetch("/send-whatsapp", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                country_code: countryCode,
-                phone_number: phoneNumber,
-                message: message
-            })
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.success) {
-
+        if (!countryCode || !phoneNumber || !message) {
             whatsappStatus.textContent =
-                "WhatsApp message sent successfully!";
-
-            // Clear fields after success
-            document.getElementById("country_code").value = "";
-            document.getElementById("whatsapp_number").value = "";
-            document.getElementById("whatsapp_message").value = "";
-
-        } else {
-
-            whatsappStatus.textContent =
-                data.message || "Failed to send WhatsApp message.";
+                "Please fill in all fields.";
+            return;
         }
 
-    } catch (error) {
-
-        console.error("WhatsApp Error:", error);
-
         whatsappStatus.textContent =
-            "Could not connect to the Flask server.";
+            "Sending WhatsApp message...";
 
-    } finally {
+        sendWhatsAppBtn.disabled = true;
 
-        sendWhatsAppBtn.disabled = false;
-    }
-});
+        try {
 
+            const response = await fetch(
+                "http://127.0.0.1:5050/send-whatsapp",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        country_code: countryCode,
+                        phone_number: phoneNumber,
+                        message: message
+                    })
+                }
+            );
 
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+
+                whatsappStatus.textContent =
+                    "WhatsApp message sent successfully!";
+
+                document.getElementById("country_code").value = "";
+                document.getElementById("whatsapp_number").value = "";
+                document.getElementById("whatsapp_message").value = "";
+
+            } else {
+
+                whatsappStatus.textContent =
+                    data.message || "Failed to send WhatsApp message.";
+            }
+
+        } catch (error) {
+
+            console.error("WhatsApp Error:", error);
+
+            whatsappStatus.textContent =
+                "Could not connect to WhatsApp Helper. Please make sure it is running.";
+        }
+
+        finally {
+            sendWhatsAppBtn.disabled = false;
+        }
+    });
 }
 
 // =====================================================
