@@ -158,27 +158,27 @@ def send_email():
 # SEND WHATSAPP
 # ==========================================
 
-@app.route("/send-whatsapp", methods=["POST"])
-def send_whatsapp():
+# @app.route("/send-whatsapp", methods=["POST"])
+# def send_whatsapp():
 
-    try:
+#     try:
 
-        data = request.get_json()
+#         data = request.get_json()
 
-        response = requests.post(
-            f"{FASTAPI_URL}/send-whatsapp",
-            json=data,
-            timeout=60
-        )
+#         response = requests.post(
+#             f"{FASTAPI_URL}/send-whatsapp",
+#             json=data,
+#             timeout=60
+#         )
 
-        return jsonify(response.json()), response.status_code
+#         return jsonify(response.json()), response.status_code
 
-    except requests.exceptions.RequestException as e:
+#     except requests.exceptions.RequestException as e:
 
-        return jsonify({
-            "error": "Could not connect to FastAPI",
-            "details": str(e)
-        }), 500
+#         return jsonify({
+#             "error": "Could not connect to FastAPI",
+#             "details": str(e)
+#         }), 500
 
 
 # ==========================================
