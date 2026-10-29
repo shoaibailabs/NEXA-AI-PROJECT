@@ -809,6 +809,15 @@ async function performSearch() {
             "search-input"
         ).value.trim();
 
+    if (searchEngine === "google") {
+    const googleUrl =
+        "https://www.google.com/search?q=" +
+        encodeURIComponent(query);
+
+    window.open(googleUrl, "_blank");
+    return;
+    }    
+
 
     const resultBox =
         element(
