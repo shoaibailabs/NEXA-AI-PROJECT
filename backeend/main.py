@@ -729,17 +729,17 @@ def search_google(data: SearchRequest):
 #     return result
 
 
-# @app.post("/send-email")
-# def send_email_endpoint(data: EmailRequest):
+@app.post("/send-email")
+def send_email_endpoint(data: EmailRequest):
 
-#     result = send_email(
-#         sender_email=data.sender_email,
-#         receiver_email=data.receiver_email,
-#         subject=data.subject,
-#         message=data.message
-#     )
+    result = send_email(
+        sender_email=data.sender_email,
+        receiver_email=data.receiver_email,
+        subject=data.subject,
+        message=data.message
+    )
 
-#     return result
+    return result
 
 
 # =========================================================
